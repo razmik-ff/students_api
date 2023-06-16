@@ -40,7 +40,7 @@ def students():
         students_data.append(new_student)
         return jsonify(new_student), 201
 
-@app.route("/student/<int:id>", methods=["GET", "PUT", "DELETE"])
+@app.route("/student/<int:id>", methods=["GET", "PATCH", "DELETE"])
 def student(id):
     for student in students_data:
         if id == student["id"]:
