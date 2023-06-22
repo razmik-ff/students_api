@@ -44,8 +44,22 @@ def students():
 def student(id):
     for student in students_data:
         if id == student["id"]:
-            return jsonify(student), 200
-    return jsonify({"message": "Student not found"}), 404
+            return jsonify(student), 200 # 200 -> OK
+        elif request.method == 'PATCH' and id == student['id']:
+            data = request.json
+            if 'name' in data:
+                student['name'] = data['name']
+            if 'age' in data:
+                student['age'] = data['age']
+            if 'grade' in data:
+                student['grade'] = data['grade']
+            if 'points' in data:
+                student['points'] = data['points']
+            return jsonify(student), 204 # 204 -> Resource Updated Successfully
+        elif request.method == 'DELETE' and id == student['id']:
+            students_data.remove(student)
+            return jsonify({'message': 'Student deleted successfully'}), 202 #200 -> OK
+    return jsonify({"message": "Student not found"}), 404 # 404 -> Not Found
 
 if __name__ == "__main__":
     app.run('0.0.0.0', debug=True)
